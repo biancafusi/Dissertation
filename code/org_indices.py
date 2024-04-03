@@ -1,3 +1,7 @@
+'''
+CREDITS: https://github.com/giobiagioli/organization_indices
+'''
+
 from scipy import spatial
 from scipy.ndimage import label, center_of_mass
 import numpy as np
