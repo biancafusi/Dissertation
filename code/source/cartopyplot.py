@@ -112,8 +112,6 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
     ax.set_title("%s"%(plotname),fontsize=8)
 
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
-
-
 	       
     return fig     
 
@@ -145,9 +143,7 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
     ax.tick_params(axis='x', labelsize=8)
     ax.tick_params(axis='y', labelsize=8)
 
-
     levels= np.linspace(b1,b2,nn,endpoint=True)
-
 
     #filled=ax.contourf(lons, lats, data,levels=levels,
     #            transform=ccrs.PlateCarree(),
@@ -170,10 +166,10 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
 
     #ax.set_extent([260, 340, -60, 20])
 
+# Aqui se define as lat lon visiveis no plot
+
     ax.set_xticks([ -70, -45], crs=ccrs.PlateCarree())
     ax.set_yticks([ -15.0, 10], crs=ccrs.PlateCarree())
-
-
 
     lon_formatter = LongitudeFormatter(number_format='.1f',
                                        degree_symbol='',
@@ -202,12 +198,9 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
     #    fmt=' {:.0f} '.format,  # Labes as integers, with some extra space.
     #)
 
-
     ax.set_title("%s"%(plotname),fontsize=8)
 
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
-
-
 	       
     return fig     
 
