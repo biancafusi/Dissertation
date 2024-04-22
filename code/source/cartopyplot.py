@@ -164,12 +164,20 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
                         colors=['black'] ,alpha=0.5,linewidths=0.5,
                         transform=ccrs.PlateCarree())
 
-    #ax.set_extent([260, 340, -60, 20])
+    states = cfeature.NaturalEarthFeature(category='cultural', scale='10m', facecolor='none', name='admin_1_states_provinces_lines')
+    ax.add_feature(states, edgecolor='black',alpha=1.0,linestyle='-', linewidth=1)
 
-# Aqui se define as lat lon visiveis no plot
+    ax.set_extent([-69, -45, -9, 8])
 
-    ax.set_xticks([ -70, -45], crs=ccrs.PlateCarree())
-    ax.set_yticks([ -15.0, 10], crs=ccrs.PlateCarree())
+# ax.set_extent: Aqui se define as lat lon visiveis no plot
+
+    ax.set_yticks(range(-9,9,3), crs=ccrs.PlateCarree())
+    ax.set_xticks(range(-69,-45,10), crs=ccrs.PlateCarree())
+    
+    
+
+    #ax.set_ylim([-9, 8])
+    #ax.set_xlim([-69, -44])
 
     lon_formatter = LongitudeFormatter(number_format='.1f',
                                        degree_symbol='',
@@ -178,7 +186,7 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
                                       degree_symbol='')
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
-
+    
     # Add a colorbar for the filled contour.
     #fig.colorbar(filled, orientation='horizontal',shrink=0.5)
 
@@ -299,9 +307,6 @@ def cartopy_f(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='R
     return fig     
 
 def cartopy_sudeste(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='fig1',out=''):
-
-
-
 
 
     gray_cmap = mpl.cm.get_cmap('gray', 120)                            # Read the reversed 'gray' cmap
