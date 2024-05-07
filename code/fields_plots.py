@@ -32,6 +32,18 @@ import source.functions as fnc
 # Function with the definition of differents projetions
 from source.cartopyplot import cartopy_amazon
 
+def mean_over_time_range(data, time_var, start_time, end_time):
+    start_index = (time_var >= start_time).argmax()
+    end_index = (time_var >= end_time).argmax()
+    return data[start_index:end_index].mean(axis=0)
+
+# Example usage:
+start_time = 24  # Starting time index
+end_time = 49    # Ending time index
+
+mean_temp = mean_over_time_range(b1.t2mj, b1.time, start_time, end_time)
+mean_totprec = mean_over_time_range(b1.totprec, b1.time, start_time, end_time)
+mean_convprec = mean_over_time_range(b1.convprec, b1.time, start_time, end_time)
 
 # to work without display
 #plt.switch_backend('agg')
