@@ -32,5 +32,5 @@ b1   =  xr.open_dataset(d1)
 
 
 #out_folder='/home/jhona/repositories/robin/bloking/document/bloking/figs/' 
-out_fig='/mnt/beegfs/bianca.fusinato/dados_mestrado/python_plots/Dissertation/results'
+out_fig='/mnt/beegfs/bianca.fusinato/dados_mestrado/python_plots/Dissertation/results/'
 
