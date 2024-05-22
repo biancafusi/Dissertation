@@ -30,56 +30,33 @@ from   source.data_own import data_day
 import source.functions as fnc
 
 # Function with the definition of differents projetions
-from source.cartopyplot import cartopy_amazon
-
-def mean_over_time_range(data, time_var, start_time, end_time):
-    start_index = (time_var >= start_time).argmax()
-    end_index = (time_var >= end_time).argmax()
-    return data[start_index:end_index].mean(axis=0)
-
-# Example usage:
-start_time = 24  # Starting time index
-end_time = 49    # Ending time index
-
-mean_temp = mean_over_time_range(b1.t2mj, b1.time, start_time, end_time)
-mean_totprec = mean_over_time_range(b1.totprec, b1.time, start_time, end_time)
-mean_convprec = mean_over_time_range(b1.convprec, b1.time, start_time, end_time)
+from source.cartopyTEST import cartopy_amazon
 
 # to work without display
 #plt.switch_backend('agg')
 
 ####from   source.nc_make  import  savetonc
 
-#print(b1)
-
-#To calculate the divergent, skip=1
-#skip=10
-
-#levs =w5.values
 datas=b1.time
 lats =b1.lat
 lons =b1.lon
 
-#lats = lats.where((lats>-9)&(lats<6),drop=True) 
+temp = b1.t2mj[24:49,:,:]
+resultados1 = []
 
-somas=[]
+for i in range(24,49):
+    soma = temp[i,:,:].sum
 
-for t in range(24,49):
-    soma_tempo_t = np.sum(b1.t2mj[t,:,:]
-    somas.append(soma_tempo_t)
+exit()
 
-media_temperatura = np.mean(somas)
-    
-    
+
+
 tota =b1.totprec[30,:,:]
 conv =b1.convprec[30,:,:]
 
-######print(b1.time.values)
 
-#cartopy1(w,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
 
-#TEMPERATURE
-cartopy_amazon(soma,lats,lons,nn=12,plotname='Temperature',figname='temp_secaCP00',color='RdBu_r',out=out_fig,cbar=True)
+cartopy_amazon(mean_totprec,lats,lons,nn=12,plotname='Temperature',figname='temp_secamediaCP00',color='RdBu_r',out=out_fig,cbar=True)
 
 #TOTAL PRECIPITATION
 cartopy_amazon(tota,lats,lons,b1=0,b2=9,nn=30,plotname='Total Precipitation',figname='total_secaCP00',color='RdBu_r',out=out_fig,cbar=True)

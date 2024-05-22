@@ -168,14 +168,10 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
     ax.add_feature(states, edgecolor='black',alpha=1.0,linestyle='-', linewidth=1)
 
     ax.set_extent([-69, -45, -9, 8])
-
-# ax.set_extent: Aqui se define as lat lon visiveis no plot
-
     ax.set_yticks(range(-9,9,3), crs=ccrs.PlateCarree())
     ax.set_xticks(range(-69,-45,10), crs=ccrs.PlateCarree())
     
     
-
     #ax.set_ylim([-9, 8])
     #ax.set_xlim([-69, -44])
 

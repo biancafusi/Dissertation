@@ -169,7 +169,7 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
 
     ax.set_extent([-69, -45, -9, 8])
 
-<<<<<<< HEAD
+
 # ax.set_extent: Aqui se define as lat lon visiveis no plot
 
     ax.set_yticks(range(-9,9,3), crs=ccrs.PlateCarree())
@@ -179,13 +179,11 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
 
     #ax.set_ylim([-9, 8])
     #ax.set_xlim([-69, -44])
-=======
+
     ax.set_xticks([ lats[0], -45], crs=ccrs.PlateCarree())
     ax.set_yticks([ -6, 6], crs=ccrs.PlateCarree())
 
 	
->>>>>>> 658b614 (Your commit message)
-
     lon_formatter = LongitudeFormatter(number_format='.1f',
                                        degree_symbol='',
                                        dateline_direction_label=True)
