@@ -115,7 +115,7 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
 	       
     return fig     
 
-def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
+def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='',out='',cbar=True):
 
     if b1==b2 and b1==100:
 
@@ -153,7 +153,7 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
     filled=ax.contourf(lons.values, lats.values, data.values, levels=levels,
                 transform=ccrs.PlateCarree(),
                 #cmap='coolwarm',alpha=1.0)
-                #cmap='Spectral_r',alpha=1.0)
+                #cmap='Spectral_r',alpha=0.9)
                 #cmap='RdYlBu_r',alpha=1.0)
                 cmap=color,alpha=1.0,extend='both')
 
