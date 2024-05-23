@@ -14,12 +14,12 @@ from   source.plotparameters import *
 
 import cartopy.crs as ccrs
 
-import cartopy.feature as cfeature
+import cartopy.feature as cf
 
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
 #from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
-
+from cartopy.feature import NaturalEarthFeature
 
 #used the user parameter to plot(plotparameter.py)
 
@@ -117,75 +117,58 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
 
 def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='',out='',cbar=True):
 
+
     if b1==b2 and b1==100:
 
         b1=np.min(data[:])
         b2=np.max(data[:])
-        
-    #projection=ccrs.Robinson(central_longitude=180.0, globe=None)
+    
+
     projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
 
-    #fig = plt.figure()
     fig = plt.figure(figsize=(4,3))
 
-    ax  = fig.add_subplot(1, 1, 1, projection=projection)
-
-    # make the map global rather than have it zoom in to
-    # the extents of any plotted data
-    #ax.set_global()
-    #ax.stock_img()
-    ax.coastlines()
-
-    ax.gridlines(draw_labels=False)
-    #ax.xlabel_style = {'size': 6, 'color': 'red'}
-    #xlabel_style = {'color': 'red', 'weight': 'bold'}
-    #ax.tick_params(axis='both', labelsize=8)
-    ax.tick_params(axis='x', labelsize=8)
-    ax.tick_params(axis='y', labelsize=8)
-
+    ax  = plt.axes(projection=projection)
+    
     levels= np.linspace(b1,b2,nn,endpoint=True)
-
-    #filled=ax.contourf(lons, lats, data,levels=levels,
-    #            transform=ccrs.PlateCarree(),
-    #            cmap='RdBu_r')
-
-
     filled=ax.contourf(lons.values, lats.values, data.values, levels=levels,
                 transform=ccrs.PlateCarree(),
-                #cmap='coolwarm',alpha=1.0)
-                #cmap='Spectral_r',alpha=0.9)
+                #cmap='coolwarm',alpha=0.9)
+                #cmap='Spectral_r',alpha=1.0)
                 #cmap='RdYlBu_r',alpha=1.0)
-                cmap=color,alpha=1.0,extend='both')
-
+                cmap=color,alpha=1.0,extend='both') 
+                   
     #lines  = ax.contour(lons, lats, data, levels=filled.levels,
-    #                    colors=['black'] ,alpha=0.5,linewidths=0.5,
-    #                    transform=ccrs.PlateCarree())
-    lines  = ax.contour(lons, lats, data, levels=filled.levels,
-                        colors=['black'] ,alpha=0.5,linewidths=0.5,
-                        transform=ccrs.PlateCarree())
-
-    states = cfeature.NaturalEarthFeature(category='cultural', scale='10m', facecolor='none', name='admin_1_states_provinces_lines')
-    ax.add_feature(states, edgecolor='black',alpha=1.0,linestyle='-', linewidth=1)
-
+                        #colors=['black'] ,alpha=0.5,linewidths=0.5,
+                        #transform=ccrs.PlateCarree())
+    
+    ax.add_feature(cf.COASTLINE,alpha=0.4)
+    ax.add_feature(cf.BORDERS,alpha=0.4)
+    ax.add_feature(cf.LAND,alpha=0.4)
+    ax.add_feature(cf.STATES,alpha=0.4)
+    ax.add_feature(cf.OCEAN)
+    ax.stock_img()
+    
     ax.set_extent([-69, -45, -9, 8])
-    ax.set_yticks(range(-9,9,3), crs=ccrs.PlateCarree())
-    ax.set_xticks(range(-69,-45,10), crs=ccrs.PlateCarree())
-    
-    
-    #ax.set_ylim([-9, 8])
-    #ax.set_xlim([-69, -44])
 
+# ax.set_extent: Aqui se define as lat lon visiveis no plot
+
+    ax.set_yticks(range(-9,10,3), crs=ccrs.PlateCarree())
+    ax.set_xticks(range(-69,-44,6), crs=ccrs.PlateCarree())
+    
     lon_formatter = LongitudeFormatter(number_format='.1f',
                                        degree_symbol='',
                                        dateline_direction_label=True)
     lat_formatter = LatitudeFormatter(number_format='.1f',
                                       degree_symbol='')
     ax.xaxis.set_major_formatter(lon_formatter)
-    ax.yaxis.set_major_formatter(lat_formatter)
-    
-    # Add a colorbar for the filled contour.
-    #fig.colorbar(filled, orientation='horizontal',shrink=0.5)
+    ax.yaxis.set_major_formatter(lat_formatter)   
+     
 
+    
+    ax.tick_params(axis='x', labelsize=8)
+    ax.tick_params(axis='y', labelsize=8)
+    
     if cbar: 
         CB=fig.colorbar(filled, orientation='vertical',shrink=0.5)
         #ax.set_xlim(data[ni],data[nf])
@@ -193,20 +176,12 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
         cbarlabels = np.linspace(b1,b2,11,endpoint=True)
         CB.set_ticks(cbarlabels[::2])
 
-    # Use the line contours to place contour labels.
-    #ax.clabel(
-    #    lines,  # Typically best results when labelling line contours.
-    #    colors=['black'],
-    #    manual=False,  # Automatic placement vs manual placement.
-    #    inline=True,  # Cut the line where the label will be placed.
-    #    fmt=' {:.0f} '.format,  # Labes as integers, with some extra space.
-    #)
-
     ax.set_title("%s"%(plotname),fontsize=8)
 
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
 	       
-    return fig     
+    return fig 
+
 
 def cartopy_f(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
 
