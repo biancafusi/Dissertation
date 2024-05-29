@@ -10,7 +10,10 @@ import matplotlib as mpl
 
 import matplotlib.pyplot as plt
 
+from matplotlib.ticker import FormatStrFormatter, ScalarFormatter
+
 from   source.plotparameters import *
+
 
 import cartopy.crs as ccrs
 
@@ -67,7 +70,7 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
                 #cmap='coolwarm',alpha=1.0)
                 #cmap='Spectral_r',alpha=1.0)
                 #cmap='RdYlBu_r',alpha=1.0)
-                cmap=color,alpha=1.0,extend='both')
+                cmap=color,alpha=1.3,extend='both')
 
     #lines  = ax.contour(lons, lats, data, levels=filled.levels,
     #                    colors=['black'] ,alpha=0.5,linewidths=0.5,
@@ -115,14 +118,15 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
 	       
     return fig     
 
-def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='',out='',cbar=True):
+def cartopy_amazon(data,lats,lons,nn=10,plotname='',figname='',color='',out='',cbar=True):
 
+    #if b1==b2 and b1==100:
 
-    if b1==b2 and b1==100:
-
-        b1=np.min(data[:])
-        b2=np.max(data[:])
-    
+     #   b1=np.min(data[:])
+     #   b2=np.max(data[:])
+     
+    b1 = round(data.min().item(), 1)
+    b2 = round(data.max().item(), 1)
 
     projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
 
@@ -130,7 +134,8 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
 
     ax  = plt.axes(projection=projection)
     
-    levels= np.linspace(b1,b2,nn,endpoint=True)
+    #levels= np.linspace(b1, b2, nn, endpoint=True)
+    levels = np.linspace(0, 20, 5)
     filled=ax.contourf(lons.values, lats.values, data.values, levels=levels,
                 transform=ccrs.PlateCarree(),
                 #cmap='coolwarm',alpha=0.9)
@@ -139,14 +144,14 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
                 cmap=color,alpha=1.0,extend='both') 
                    
     #lines  = ax.contour(lons, lats, data, levels=filled.levels,
-                        #colors=['black'] ,alpha=0.5,linewidths=0.5,
-                        #transform=ccrs.PlateCarree())
+    #                    colors=['black'] ,alpha=0.3,linewidths=0.05,
+    #                    transform=ccrs.PlateCarree())
     
     ax.add_feature(cf.COASTLINE,alpha=0.4)
     ax.add_feature(cf.BORDERS,alpha=0.4)
     ax.add_feature(cf.LAND,alpha=0.4)
     ax.add_feature(cf.STATES,alpha=0.4)
-    ax.add_feature(cf.OCEAN)
+    ax.add_feature(cf.OCEAN,alpha=0.4)
     ax.stock_img()
     
     ax.set_extent([-69, -45, -9, 8])
@@ -163,17 +168,18 @@ def cartopy_amazon(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',col
                                       degree_symbol='')
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)   
-     
-
     
     ax.tick_params(axis='x', labelsize=8)
     ax.tick_params(axis='y', labelsize=8)
-    
+   
     if cbar: 
-        CB=fig.colorbar(filled, orientation='vertical',shrink=0.5)
+        CB=fig.colorbar(filled, orientation='horizontal',shrink=0.5)
         #ax.set_xlim(data[ni],data[nf])
         #ax.set_ylim([nv1,nv2])
-        cbarlabels = np.linspace(b1,b2,11,endpoint=True)
+        cbarlabels = np.linspace(0,20,5,endpoint=True)
+        CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+        CB.ax.tick_params(labelsize=5)
+        CB.set_label(label='mm/h',loc='center',  fontsize=5)
         CB.set_ticks(cbarlabels[::2])
 
     ax.set_title("%s"%(plotname),fontsize=8)
