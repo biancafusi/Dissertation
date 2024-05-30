@@ -118,7 +118,7 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
 	       
     return fig     
 
-def cartopy_amazon(data,lats,lons,nn=10,plotname='',figname='',color='',out='',cbar=True):
+def cartopy_amazon(data,lats,lons,nn=2,plotname='',figname='',color='',out='',cbar=True):
 
     #if b1==b2 and b1==100:
 
@@ -127,6 +127,10 @@ def cartopy_amazon(data,lats,lons,nn=10,plotname='',figname='',color='',out='',c
      
     b1 = round(data.min().item(), 1)
     b2 = round(data.max().item(), 1)
+
+    print(f'b1:{b1}')
+    print(f'b2:{b2}')
+
 
     projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
 
@@ -176,7 +180,7 @@ def cartopy_amazon(data,lats,lons,nn=10,plotname='',figname='',color='',out='',c
         CB=fig.colorbar(filled, orientation='horizontal',shrink=0.5)
         #ax.set_xlim(data[ni],data[nf])
         #ax.set_ylim([nv1,nv2])
-        cbarlabels = np.linspace(0,20,5,endpoint=True)
+        cbarlabels = np.linspace(0,b2,1,endpoint=True)
         CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         CB.ax.tick_params(labelsize=5)
         CB.set_label(label='mm/h',loc='center',  fontsize=5)
