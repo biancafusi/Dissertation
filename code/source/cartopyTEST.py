@@ -124,13 +124,11 @@ def cartopy_amazon(data,lats,lons,nn=2,plotname='',figname='',color='',out='',cb
 
      #   b1=np.min(data[:])
      #   b2=np.max(data[:])
-     
-    b1 = round(data.min().item(), 1)
-    b2 = round(data.max().item(), 1)
+    b1 = 0
+    b2 = 22
 
-    print(f'b1:{b1}')
-    print(f'b2:{b2}')
-
+    #b1 = round(data.min().item(), 1)
+    #b2 = round(data.max().item(), 1)
 
     projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
 
@@ -138,8 +136,8 @@ def cartopy_amazon(data,lats,lons,nn=2,plotname='',figname='',color='',out='',cb
 
     ax  = plt.axes(projection=projection)
     
-    #levels= np.linspace(b1, b2, nn, endpoint=True)
-    levels = np.linspace(0, 20, 5)
+    levels= np.linspace(b1, b2, nn, endpoint=True)
+    #levels = np.linspace(0, 22, 10)
     filled=ax.contourf(lons.values, lats.values, data.values, levels=levels,
                 transform=ccrs.PlateCarree(),
                 #cmap='coolwarm',alpha=0.9)
@@ -180,11 +178,11 @@ def cartopy_amazon(data,lats,lons,nn=2,plotname='',figname='',color='',out='',cb
         CB=fig.colorbar(filled, orientation='horizontal',shrink=0.5)
         #ax.set_xlim(data[ni],data[nf])
         #ax.set_ylim([nv1,nv2])
-        cbarlabels = np.linspace(0,b2,1,endpoint=True)
+        cbarlabels = np.linspace(0,b2,nn,endpoint=True)
         CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         CB.ax.tick_params(labelsize=5)
         CB.set_label(label='mm/h',loc='center',  fontsize=5)
-        CB.set_ticks(cbarlabels[::2])
+        #CB.set_ticks(cbarlabels[::2])
 
     ax.set_title("%s"%(plotname),fontsize=8)
 

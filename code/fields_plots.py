@@ -23,6 +23,8 @@ import datetime as dt
 
 import matplotlib.pyplot as plt
 
+from mpl_toolkits.basemap import Basemap
+
 ####################################################
 
 #from   Parameters_jhona import ds_chuvosaCP, media_chuvosa  
@@ -107,12 +109,12 @@ precipitacao_maxima = round(tota.max().item(), 1);
 
 cartopy_amazon(tota, lats, lon, nn=12, plotname='Teste', figname='teste', color='Blues', out=output_dir, cbar=True)
 '''
-
+2014-02-15
+2014-02-24
 #Teste com mean
-
 # Função para calcular a média da precipitação
-def calcular_media_precipitacao(ds, var_name):
-    return ds[var_name].mean(dim='time')
+#def calcular_media_precipitacao(ds, var_name):
+#    return ds[var_name].mean(dim='time')
 
 # Caminhos dos arquivos de dados
 ds_chuvosaCP_path = os.path.expanduser('~/dados/chuvosaCP_combined.nc')
@@ -126,18 +128,11 @@ ds_chuvosaCP = xr.open_dataset(ds_chuvosaCP_path)
 #ds_transicaoCP = xr.open_dataset(ds_transicaoCP_path)
 ds_chuvosaERA5 = xr.open_dataset(ds_chuvosaERA5_path)
 
-totaCP = ds_chuvosaCP.totprec[15,:,:]
-print(ds_chuvosaCP.time[15].values)
+totaCP = ds_chuvosaCP.totprec[144,:,:]
+totaERA5 = ds_chuvosaERA5.tp[144+24,:,:]*1000
 
-totaERA5 = ds_chuvosaERA5.tp[15,:,:]*1000
-print(ds_chuvosaERA5.time[15].values)
-
-exit()
-
-#VERIFICAR SE TA CERTO A HORA
-#VERIFICAR SE TA CERTO A LONGITUDE
-
-output_dir = os.path.expanduser('~/dados/')
+print(f'A hora CP eh: {totaCP.time.values}')
+print(f'A hora ERA5 eh: {totaERA5.time.values}')
 
 lats = ds_chuvosaCP.lat
 lon = ds_chuvosaCP.lon
@@ -145,6 +140,48 @@ lon = ds_chuvosaCP.lon
 latsERA5 = ds_chuvosaERA5.latitude
 lonERA5 = ds_chuvosaERA5.longitude
 
+output_dir = os.path.expanduser('~/dados/')
+'''
+#VERIFICAR SE TA CERTO A LONGITUDE
+lats = ds_chuvosaCP.lat
+lon = ds_chuvosaCP.lon
+
+latsERA5 = ds_chuvosaERA5.latitude
+lonERA5 = ds_chuvosaERA5.longitude
+
+#Accessing the lat data through specific lat
+latss = lats.sel(lat=-3, method="nearest").values
+lons = lon.sel(lon=-60, method="nearest").values
+print(latss)
+print(lons)
+
+# Initialize Basemap
+map = Basemap(projection='cyl', resolution='l', 
+              llcrnrlat=-10, urcrnrlat=10, 
+              llcrnrlon=-70, urcrnrlon=-50)
+
+# Transform the specific lat/lon to map coordinates
+# Draw parallels and meridians with labels
+parallels = np.arange(-10., 10., 5.)
+meridians = np.arange(-70., 50., 5.)
+map.drawparallels(parallels, labels=[1,0,0,0])
+map.drawmeridians(meridians, labels=[0,0,0,1])
+
+x, y = map(lons, latss)
+
+# Plot the specific point
+map.plot(x, y, 'bo', markersize=10)
+
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+
+plt.savefig('specific_point_map2.pdf', dpi=300, bbox_inches='tight')
+
+exit()
+'''
+#print(f'CPlat:{lats}')
+#print(f'ERA5lat:{latsERA5}')
+#exit()
 # Calcular a média das precipitações para cada período
 #media_totprec_chuvosaCP = calcular_media_precipitacao(ds_chuvosaCP, 'totprec')
 #media_convprec_chuvosaCP = calcular_media_precipitacao(ds_chuvosaCP, 'convprec')
