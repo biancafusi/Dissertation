@@ -41,20 +41,25 @@ ds_chuvosaGPM = xr.open_dataset('~/dados/chuvosaGPM_combined.nc')
 data = ds_chuvosaCP.time
 lats = ds_chuvosaCP.lat
 lons = ds_chuvosaCP.lon
+
 latERA5 = ds_chuvosaERA5.latitude
 lonERA5 = ds_chuvosaERA5.longitude
+
 latGPM = ds_chuvosaGPM.lat
 lonGPM = ds_chuvosaGPM.lon
-idx_chuvosa = 45
+
+idx_chuvosa = 35
 
 precCP = ds_chuvosaCP.totprec[idx_chuvosa,:,:]
+#print(precCP.time.values)
 precOFF = ds_chuvosaOFF.totprec[idx_chuvosa,:,:]
+#print(precOFF.time.values)
 precERA5 = ds_chuvosaERA5.tp[idx_chuvosa,:,:]
 precGPM = ds_chuvosaGPM.precip_media[idx_chuvosa,:,:]
 
-cartopy_amazon(precCP, lats, lons, figname='tpCP_chuvosa', out= output_path, cbar=True)
-cartopy_amazon(precOFF, lats, lons, figname='tpOFF_chuvosa', out= output_path, cbar=True)
-cartopy_amazon(precERA5, latERA5, lonERA5, figname='tpERA5_chuvosa', out= output_path, cbar=True)
+cartopy_amazon(precCP, lats, lons, lim_min=0, lim_max=20, num_div=11, plotname='ColdPool-ON', figname='tpCP_chuvosa', out= output_path, cbar=True)
+cartopy_amazon(precOFF, lats, lons, lim_min=0, lim_max=20, num_div=11, plotname='ColdPool-OFF', figname='tpOFF_chuvosa', out= output_path, cbar=True)
+#cartopy_amazon(precERA5, latERA5, lonERA5, figname='tpERA5_chuvosa', out= output_path, cbar=True)
 #cartopy_amazon(precGPM, latGPM, lonGPM, figname='tpGPM_chuvosa', out= output_path, cbar=True)
 
 

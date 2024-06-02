@@ -17,7 +17,7 @@ import proplot as pplt
 
 #mpl.rcParams.update(params)
 
-'''
+
 def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
 
     if b1==b2 and b1==100:
@@ -106,12 +106,12 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
 	       
     return fig     
-'''
 
-def cartopy_amazon(data,lats,lons,figname='',out='',cbar=True):
 
-    b1 = 0
-    b2 = 10
+def cartopy_amazon(data,lats,lons,lim_min='',lim_max='',num_div='',plotname='',figname='',out='',cbar=True):
+
+    b1 = lim_min
+    b2 = lim_max
     nn = 2
     
     projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
@@ -155,17 +155,19 @@ def cartopy_amazon(data,lats,lons,figname='',out='',cbar=True):
     
     
     if cbar:
-        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.5, pad=0.1, aspect=40)
-        cbarlabels = np.linspace(0, b2, 6, endpoint=True)
+        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.6, pad=0.1, aspect=40)
+        cbarlabels = np.linspace(0, b2, num_div, endpoint=True)
         CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         CB.ax.tick_params(labelsize=6)
         CB.set_label(label='mm/h',loc='center',  fontsize=6)
         CB.set_ticks(cbarlabels)
+    
+    ax.set_title("%s"%(plotname),fontsize=6)
 
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
 
     return fig
-'''
+
 def cartopy_f(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
 
     if b1==b2 and b1==100:
@@ -538,5 +540,5 @@ def narrow_q(q,plotname='',figname='',out='',label=''):
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=100)
 	       
     return fig     
-'''
+
     
