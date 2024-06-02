@@ -155,7 +155,7 @@ def cartopy_amazon(data,lats,lons,lim_min='',lim_max='',num_div='',plotname='',f
     
     
     if cbar:
-        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.6, pad=0.1, aspect=40)
+        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.5, pad=0.1, aspect=40)
         cbarlabels = np.linspace(0, b2, num_div, endpoint=True)
         CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         CB.ax.tick_params(labelsize=6)

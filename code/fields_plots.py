@@ -57,8 +57,8 @@ precOFF = ds_chuvosaOFF.totprec[idx_chuvosa,:,:]
 precERA5 = ds_chuvosaERA5.tp[idx_chuvosa,:,:]
 precGPM = ds_chuvosaGPM.precip_media[idx_chuvosa,:,:]
 
-cartopy_amazon(precCP, lats, lons, lim_min=0, lim_max=20, num_div=11, plotname='ColdPool-ON', figname='tpCP_chuvosa', out= output_path, cbar=True)
-cartopy_amazon(precOFF, lats, lons, lim_min=0, lim_max=20, num_div=11, plotname='ColdPool-OFF', figname='tpOFF_chuvosa', out= output_path, cbar=True)
+cartopy_amazon(precCP, lats, lons, lim_min=0, lim_max=18, num_div=10, plotname='ColdPool-ON', figname='tpCP_chuvosa', out= output_path, cbar=True)
+cartopy_amazon(precOFF, lats, lons, lim_min=0, lim_max=18, num_div=10, plotname='ColdPool-OFF', figname='tpOFF_chuvosa', out= output_path, cbar=True)
 #cartopy_amazon(precERA5, latERA5, lonERA5, figname='tpERA5_chuvosa', out= output_path, cbar=True)
 #cartopy_amazon(precGPM, latGPM, lonGPM, figname='tpGPM_chuvosa', out= output_path, cbar=True)
 
