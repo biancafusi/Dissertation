@@ -5,30 +5,19 @@
 ###########################################
 
 import numpy  as np 
-
-import matplotlib as mpl
-
 import matplotlib.pyplot as plt
-
 from matplotlib.ticker import FormatStrFormatter, ScalarFormatter
-
 from   source.plotparameters import *
-
-
 import cartopy.crs as ccrs
-
 import cartopy.feature as cf
-
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
-
-#from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from cartopy.feature import NaturalEarthFeature
-
+import proplot as pplt
 #used the user parameter to plot(plotparameter.py)
 
-mpl.rcParams.update(params)
+#mpl.rcParams.update(params)
 
-
+'''
 def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
 
     if b1==b2 and b1==100:
@@ -117,80 +106,66 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
 	       
     return fig     
+'''
 
-def cartopy_amazon(data,lats,lons,nn=2,plotname='',figname='',color='',out='',cbar=True):
+def cartopy_amazon(data,lats,lons,figname='',out='',cbar=True):
 
-    #if b1==b2 and b1==100:
-
-     #   b1=np.min(data[:])
-     #   b2=np.max(data[:])
     b1 = 0
-    b2 = 22
-
-    #b1 = round(data.min().item(), 1)
-    #b2 = round(data.max().item(), 1)
-
-    projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
-
-    fig = plt.figure(figsize=(4,3))
-
-    ax  = plt.axes(projection=projection)
+    b2 = 10
+    nn = 2
     
-    levels= np.linspace(b1, b2, nn, endpoint=True)
-    #levels = np.linspace(0, 22, 10)
+    projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
+     
+    largura_fig = 2.90 #polegadas
+    altura_fig = 3.80 #polegadas
+    
+    fig = plt.figure(figsize=(largura_fig, altura_fig))
+    ax  = plt.axes(projection=projection)
+
+    cmap2 = pplt.Colormap(['lightblue', 'blue', 'darkblue', 'red', 'darkred'], name='CustomMap')
+
+    levels= np.linspace(b1, b2)
     filled=ax.contourf(lons.values, lats.values, data.values, levels=levels,
                 transform=ccrs.PlateCarree(),
-                #cmap='coolwarm',alpha=0.9)
-                #cmap='Spectral_r',alpha=1.0)
-                #cmap='RdYlBu_r',alpha=1.0)
-                cmap=color,alpha=1.0,extend='both') 
-                   
-    #lines  = ax.contour(lons, lats, data, levels=filled.levels,
-    #                    colors=['black'] ,alpha=0.3,linewidths=0.05,
-    #                    transform=ccrs.PlateCarree())
-    
+                cmap = cmap2
+                )
+
     ax.add_feature(cf.COASTLINE,alpha=0.4)
     ax.add_feature(cf.BORDERS,alpha=0.4)
     ax.add_feature(cf.LAND,alpha=0.4)
     ax.add_feature(cf.STATES,alpha=0.4)
     ax.add_feature(cf.OCEAN,alpha=0.4)
     ax.stock_img()
-    
+
     ax.set_extent([-69, -45, -9, 8])
-
-# ax.set_extent: Aqui se define as lat lon visiveis no plot
-
     ax.set_yticks(range(-9,10,3), crs=ccrs.PlateCarree())
     ax.set_xticks(range(-69,-44,6), crs=ccrs.PlateCarree())
-    
+
     lon_formatter = LongitudeFormatter(number_format='.1f',
                                        degree_symbol='',
                                        dateline_direction_label=True)
     lat_formatter = LatitudeFormatter(number_format='.1f',
                                       degree_symbol='')
-    ax.xaxis.set_major_formatter(lon_formatter)
-    ax.yaxis.set_major_formatter(lat_formatter)   
     
-    ax.tick_params(axis='x', labelsize=8)
-    ax.tick_params(axis='y', labelsize=8)
-   
-    if cbar: 
-        CB=fig.colorbar(filled, orientation='horizontal',shrink=0.5)
-        #ax.set_xlim(data[ni],data[nf])
-        #ax.set_ylim([nv1,nv2])
-        cbarlabels = np.linspace(0,b2,nn,endpoint=True)
-        CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-        CB.ax.tick_params(labelsize=5)
-        CB.set_label(label='mm/h',loc='center',  fontsize=5)
-        #CB.set_ticks(cbarlabels[::2])
+    ax.xaxis.set_major_formatter(lon_formatter)
+    ax.yaxis.set_major_formatter(lat_formatter)
 
-    ax.set_title("%s"%(plotname),fontsize=8)
+    ax.tick_params(axis='x', labelsize=6)
+    ax.tick_params(axis='y', labelsize=6)
+    
+    
+    if cbar:
+        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.5, pad=0.1, aspect=40)
+        cbarlabels = np.linspace(0, b2, 6, endpoint=True)
+        CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+        CB.ax.tick_params(labelsize=6)
+        CB.set_label(label='mm/h',loc='center',  fontsize=6)
+        CB.set_ticks(cbarlabels)
 
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
-	       
-    return fig 
 
-
+    return fig
+'''
 def cartopy_f(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='RdBu_r',out='',cbar=True):
 
     if b1==b2 and b1==100:
@@ -563,5 +538,5 @@ def narrow_q(q,plotname='',figname='',out='',label=''):
     fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=100)
 	       
     return fig     
-
+'''
     
