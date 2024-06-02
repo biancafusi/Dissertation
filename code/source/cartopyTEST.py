@@ -6,7 +6,7 @@
 
 import numpy  as np 
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FormatStrFormatter, ScalarFormatter
+from matplotlib.ticker import FormatStrFormatter, ScalarFormatter, MaxNLocator
 from   source.plotparameters import *
 import cartopy.crs as ccrs
 import cartopy.feature as cf
@@ -107,12 +107,10 @@ def cartopy1(data,lats,lons,b1=100,b2=100,nn=10,plotname='',figname='',color='Rd
 	       
     return fig     
 
-
-def cartopy_amazon(data,lats,lons,lim_min='',lim_max='',num_div='',plotname='',figname='',out='',cbar=True):
+def cartopy_amazon(data, lats, lons, lim_min='', lim_max='', num_div='', plotname='', figname='', out='', cbar=True):
 
     b1 = lim_min
     b2 = lim_max
-    nn = 2
     
     projection=ccrs.PlateCarree(central_longitude=180.0, globe=None)
      
@@ -124,7 +122,7 @@ def cartopy_amazon(data,lats,lons,lim_min='',lim_max='',num_div='',plotname='',f
 
     cmap2 = pplt.Colormap(['lightblue', 'blue', 'darkblue', 'red', 'darkred'], name='CustomMap')
 
-    levels= np.linspace(b1, b2)
+    levels= np.linspace(0, b2)
     filled=ax.contourf(lons.values, lats.values, data.values, levels=levels,
                 transform=ccrs.PlateCarree(),
                 cmap = cmap2
@@ -140,31 +138,33 @@ def cartopy_amazon(data,lats,lons,lim_min='',lim_max='',num_div='',plotname='',f
     ax.set_extent([-69, -45, -9, 8])
     ax.set_yticks(range(-9,10,3), crs=ccrs.PlateCarree())
     ax.set_xticks(range(-69,-44,6), crs=ccrs.PlateCarree())
-
+   
     lon_formatter = LongitudeFormatter(number_format='.1f',
                                        degree_symbol='',
                                        dateline_direction_label=True)
     lat_formatter = LatitudeFormatter(number_format='.1f',
                                       degree_symbol='')
-    
+
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
 
     ax.tick_params(axis='x', labelsize=6)
     ax.tick_params(axis='y', labelsize=6)
-    
-    
+
+
     if cbar:
-        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.5, pad=0.1, aspect=40)
+        CB = fig.colorbar(filled, orientation='horizontal', shrink=0.8, pad=0.1, aspect=35)
         cbarlabels = np.linspace(0, b2, num_div, endpoint=True)
+        CB.set_ticks(cbarlabels)
         CB.ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+        #CB.ax.xaxis.set_major_locator(MaxNLocator(integer=True))
         CB.ax.tick_params(labelsize=6)
         CB.set_label(label='mm/h',loc='center',  fontsize=6)
-        CB.set_ticks(cbarlabels)
+        
     
     ax.set_title("%s"%(plotname),fontsize=6)
 
-    fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf', dpi=200)
+    fig.savefig('%s%s.pdf'%(out,figname),bbox_inches='tight', format='pdf')
 
     return fig
 

@@ -33,27 +33,26 @@ dates_ERA5seca = generate_ERA5dates_list(np.datetime64('2014-09-02T00:00'), np.d
 dates_ERA5transicao = generate_ERA5dates_list(np.datetime64('2014-10-02T00:00'), np.datetime64('2014-11-10T23:00'))
 
 # Carregar e combinar datasets para cada período
-ds_ERA5chuvoso = carregar_ERA5(path_ERA5, dates_ERA5chuvosa)
-ds_ERA5temperatureChuvoso = carregar_ERA5(path_ERA5temperature, dates_ERA5chuvosa)
+#ds_ERA5chuvoso = carregar_ERA5(path_ERA5, dates_ERA5chuvosa)
+#ds_ERA5temperatureChuvoso = carregar_ERA5(path_ERA5temperature, dates_ERA5chuvosa)
 
 ds_ERA5seca = carregar_ERA5(path_ERA5, dates_ERA5seca)
 ds_ERA5temperatureSeca = carregar_ERA5(path_ERA5temperature, dates_ERA5seca)
 
-ds_ERA5transicao = carregar_ERA5(path_ERA5, dates_ERA5transicao)
-ds_ERA5temperatureTransicao = carregar_ERA5(path_ERA5temperature, dates_ERA5transicao)
-
+#ds_ERA5transicao = carregar_ERA5(path_ERA5, dates_ERA5transicao)
+#ds_ERA5temperatureTransicao = carregar_ERA5(path_ERA5temperature, dates_ERA5transicao)
 
 output = '~/dados'
 
 # Salvar os datasets combinados (opcional)
-ds_ERA5chuvoso.to_netcdf(os.path.join(output, 'chuvosaERA5_combined.nc'))
-ds_ERA5temperatureChuvoso.to_netcdf(os.path.join(output, 'chuvosaERA5temp_combined.nc'))
-print('ERA5 chuvoso carregado')
+#ds_ERA5chuvoso.to_netcdf(os.path.join(output, 'chuvosaERA5_combined.nc'))
+#ds_ERA5temperatureChuvoso.to_netcdf(os.path.join(output, 'chuvosaERA5temp_combined.nc'))
+#print('ERA5 chuvoso carregado')
 
 ds_ERA5seca.to_netcdf(os.path.join(output, 'secaERA5_combined.nc'))
 ds_ERA5temperatureSeca.to_netcdf(os.path.join(output, 'secaERA5temp_combined.nc'))
 print('ERA5 seco carregado')
 
-ds_ERA5transicao.to_netcdf(os.path.join(output, 'transicaoERA5_combined.nc'))
-ds_ERA5temperatureTransicao.to_netcdf(os.path.join(output, 'transicaoERA5temp_combined.nc'))
-print('ERA5 transicao carregado')
+#ds_ERA5transicao.to_netcdf(os.path.join(output, 'transicaoERA5_combined.nc'))
+#ds_ERA5temperatureTransicao.to_netcdf(os.path.join(output, 'transicaoERA5temp_combined.nc'))
+#print('ERA5 transicao carregado')
