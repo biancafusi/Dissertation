@@ -16,11 +16,9 @@ Below is an overview of the main folders in this repository:
 
 ```
 .
-├── extra_coding/       # MONAN configuration files for each hurricane case
-├── hurricane_helene/          # Scripts to generate domains and cold pool masks (e.g., shapefiles)
-├── hurricane_beryl/       # Main simulation scripts and post-processing routines
-├── env/             # Conda environment files and package list
-└── docs/            # Supporting documentation and notes
+├── extra_coding/             # extra code that assisted throughout the dissertation
+├── hurricane_beryl/          # Chapter 5 - Hurricane Beryl analyses
+├── hurricane_helene/         # Chapter 6 - Hurricane Helene analyses
 ```
 
 Feel free to suggest improvements to the structure!
