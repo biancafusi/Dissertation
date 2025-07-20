@@ -43,8 +43,8 @@ To run the code:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/biancafusi/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/biancafusi/Dissertation.git
+   cd Dissertation
 
 2. (Recommended) Create a Conda environment:
 
